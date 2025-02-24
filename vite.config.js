@@ -7,6 +7,7 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
   },
+  base: '/', // Ensure the correct base path
   server: {
     port: 5173,
     proxy: {
