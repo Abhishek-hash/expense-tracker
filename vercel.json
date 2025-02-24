@@ -1,24 +1,26 @@
 {
-  "projects": [
+  "version": 2,
+  "builds": [
     {
-      "name": "frontend",
-      "root": ".",
-      "buildCommand": "npm run build",
-      "outputDirectory": "dist",
-      "framework": "vite"
+      "src": "backend/server.js",
+      "use": "@vercel/node"
     },
     {
-      "name": "backend",
-      "root": "backend",
-      "buildCommand": "npm install",
-      "outputDirectory": ".",
-      "framework": null
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/backend/server.js"
+      "src": "/api/(.*)",
+      "dest": "backend/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
