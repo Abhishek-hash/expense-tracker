@@ -1,20 +1,28 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'node_modules'] },
   {
-    files: ['**/*.{js,jsx}'],
+    // Common Configurations for All Files
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+    },
+  },
+  {
+    // Frontend (React) Configurations
+    files: ['**/src/**/*.{js,jsx}'],
+    languageOptions: {
       globals: globals.browser,
       parserOptions: {
-        ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
-        sourceType: 'module',
       },
     },
     settings: { react: { version: '18.3' } },
@@ -24,7 +32,6 @@ export default [
       'react-refresh': reactRefresh,
     },
     rules: {
-      ...js.configs.recommended.rules,
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
@@ -35,4 +42,18 @@ export default [
       ],
     },
   },
-]
+  {
+    // Backend (Node.js) Configurations
+    files: ['**/backend/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: globals.node,
+    },
+    env: {
+      node: true,
+      es2021: true,
+    },
+    rules: {
+      'no-undef': 'off', // Prevents 'process' is not defined error
+    },
+  },
+];

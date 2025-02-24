@@ -1,4 +1,5 @@
 // server.js
+/* eslint-env node */
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -39,7 +40,7 @@ app.get('*', (req, res) => {
 });
 
 // Global Error Handling Middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     console.error('Global Error:', err.message);
     res.status(500).json({ message: err.message || 'Internal Server Error' });
 });
